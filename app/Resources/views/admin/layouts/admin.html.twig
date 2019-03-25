@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/admin_global.css') }}">
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="ui visible  sidebar vertical inverted menu">
+        <div class="item" style="height: 50px;display: flex;align-items: center">
+            <h3 class="ui yellow header">Admin</h3>
+        </div>
+        <a href="{{ url('admin.user.index') }}" class="item">用户列表</a>
+    </div>
+    <div class="main" style="margin-left: 15rem">
+        <div class="top">
+            <div class="ui inverted menu" style="border-radius: 0;height: 50px">
+                <div class="right floated item">用户名:{{ app.user.getUserName }}</div>
+                <a href="{{ url('admin.logout') }}" class="right floated item" style="margin-left: 0 !important;">退出</a>
+            </div>
+        </div>
+        <div class="container">
+            {% block container %}{% endblock %}
+        </div>
+    </div>
+    {% block myjs %}{% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(function(){
+            $('.message .close').on('click', function() {
+                $(this).closest('.message').transition('fade');
+            });
+        })
+    </script>
+{% endblock %}
+

@@ -1,0 +1,88 @@
+
+{% extends 'admin/layouts/admin.html.twig' %}
+
+{% block container %}
+    <h2 class="ui header">用户列表</h2>
+
+    <div class="ui divider"></div>
+
+
+
+    <div class="ui segments">
+        <div class="ui segment">
+            <a class="ui button" href="{{ url('admin.user.create') }}">添加</a>
+        </div>
+
+        {% for class,msg in {"negative":app.session.flashbag.get('negative'),"positive":app.session.flashbag.get('positive')} %}
+            {% if msg is not empty %}
+            <div class="ui segment">
+                <div class="ui {{ class }} message">
+                    <i class="close icon"></i>
+                    <div class="header">操作成功</div>
+                    <p>{{ msg|first }}</p>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+
+
+        <div class="ui segment">
+            <table class="ui table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>用户名</th>
+                    <th>登陆时间</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% if users is not empty %}
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.getId }}</td>
+                        <td>{{ user.getUserName }}</td>
+                        <td>{%  if user.getLastLoginTime is empty %}暂未登录{% else %} {{user.getLastLoginTime}}{% endif %}</td>
+                        <td>{{ user.getCreatedAt }}</td>
+                        <td>
+                            <a href="{{ path('admin.user.update',{'id':user.getId}) }}"><i class="edit icon"></i></a>
+                            <a data-href="{{ path('admin.user.del',{'id':user.getId}) }}" href="javascript:;" class="del"><i class="trash icon"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+    <script>
+        $(function(){
+            $('.del').on('click',function(e){
+                var href = $(this).data('href');
+                layui.use('layer',function(){
+                    var layer = layui.layer;
+                    layer.confirm('是否删除该用户',function(){
+
+                        $.get(href,function (res) {
+
+                            if(res.state == 0 )
+                            {
+                                layer.alert(res.msg,{icon:6},function(){
+                                    location.reload();
+                                })
+                            }else{
+                                layer.alert(res.msg,{icon:5});
+                            }
+                        })
+                    })
+                })
+            })
+        })
+    </script>
+    {% block myjs %}{% endblock %}
+
+{% endblock %}

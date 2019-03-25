@@ -1,0 +1,75 @@
+{% extends 'admin/layouts/admin.html.twig' %}
+
+{% block container %}
+
+    <h2 class="ui header">创建用户</h2>
+
+    <div class="ui divider"></div>
+
+    <div class="ui negative message {% if errors is not defined %}hidden{% endif %}">
+        <i class="close icon"></i>
+        <div class="header">创建失败</div>
+        <ul>
+            {% if errors is defined %}
+                {% for error in errors %}
+                  <li>{{ error.message }}</li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+    <div class="ui segment">
+        <form action="" class="ui form" method="post" onsubmit="return check();">
+            <div class="field">
+                <label>用户名</label>
+                <input type="text" name="user_name">
+            </div>
+            <div class="field">
+                <label>密码</label>
+                <input type="password" name="password">
+            </div>
+            <div class="field">
+                <button type="submit" class="ui blue button" >提交</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+
+{% block myjs %}
+    <script>
+        function check()
+        {
+            var user_name = $('input[name="user_name"]');
+            var password = $('input[name="password"]');
+
+            if(user_name.val() == '')
+            {
+                $('.negative.message').removeClass('hidden');
+                $('.negative.message ul').html('<li>用户名不能为空</li>');
+                user_name.focus();
+                return false;
+            }
+
+            if(password.val() == '')
+            {
+                $('.negative.message').removeClass('hidden');
+                $('.negative.message ul').html('<li>密码不能为空</li>');
+                password.focus();
+                return false;
+            }
+            return true;
+        }
+
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+

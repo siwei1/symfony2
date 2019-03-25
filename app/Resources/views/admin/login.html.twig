@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <style>
+        body {
+            background: url('/assets/images/bg.png') no-repeat center;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login {
+            background-color: #ffffff;
+            width: 400px;
+            min-height: 300px;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 1px 1px 20px #000;
+        }
+
+    </style>
+
+
+    <div class="login">
+        <h3 class="ui centered header">Admin</h3>
+        {% if error %}
+            <div class="ui negative message">
+                <p>{{ error.messageKey|trans(error.messageData, 'security')  }}</p>
+            </div>
+        {% endif %}
+
+        <form action="{{ url('admin.login.check') }}" class="ui form" method="post">
+            <div class=" field">
+                <label for="">用户名：</label>
+                <input type="text" name="user_name" value="{{ last_username }}">
+            </div>
+            <div class=" field">
+                <label for="">密　码：</label>
+                <input type="password" name="password" >
+            </div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <input type="submit" value="登陆" class="ui fluid button">
+        </form>
+    </div>
+
+
+
+
+{% endblock %}

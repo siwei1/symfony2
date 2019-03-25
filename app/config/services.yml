@@ -7,3 +7,6 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+      admin.authentication.success_handler:
+          class: AdminBundle\Handler\AuthenticationSuccessHandler
+          arguments: ["@doctrine"]
